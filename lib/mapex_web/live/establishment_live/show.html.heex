@@ -1,0 +1,33 @@
+<.header>
+  Establishment <%= @establishment.id %>
+  <:subtitle>This is a establishment record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/vendors/#{@establishment}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit establishment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Kind"><%= @establishment.kind %></:item>
+  <:item title="Permit status"><%= @establishment.permit_status %></:item>
+  <:item title="Serving"><%= @establishment.serving %></:item>
+</.list>
+
+<.back navigate={~p"/vendors"}>Back to vendors</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="establishment-modal"
+  show
+  on_cancel={JS.patch(~p"/vendors/#{@establishment}")}
+>
+  <.live_component
+    module={MapexWeb.EstablishmentLive.FormComponent}
+    id={@establishment.id}
+    title={@page_title}
+    action={@live_action}
+    establishment={@establishment}
+    patch={~p"/vendors/#{@establishment}"}
+  />
+</.modal>

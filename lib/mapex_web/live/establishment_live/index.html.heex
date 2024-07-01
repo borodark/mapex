@@ -1,0 +1,50 @@
+<.header>
+  Listing Vendors
+  <:actions>
+    <.link patch={~p"/vendors/new"}>
+      <.button>New Establishment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="vendors"
+  rows={@streams.vendors}
+  row_click={fn {_id, establishment} -> JS.navigate(~p"/vendors/#{establishment}") end}
+>
+  <:col :let={{_id, establishment}} label="Kind"><%= establishment.kind %></:col>
+  <:col :let={{_id, establishment}} label="Permit status">
+    <%= establishment.permit_status %>
+  </:col>
+  <:col :let={{_id, establishment}} label="Serving"><%= establishment.serving %></:col>
+  <:action :let={{_id, establishment}}>
+    <div class="sr-only">
+      <.link navigate={~p"/vendors/#{establishment}"}>Show</.link>
+    </div>
+    <.link patch={~p"/vendors/#{establishment}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, establishment}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: establishment.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="establishment-modal"
+  show
+  on_cancel={JS.patch(~p"/vendors")}
+>
+  <.live_component
+    module={MapexWeb.EstablishmentLive.FormComponent}
+    id={@establishment.id || :new}
+    title={@page_title}
+    action={@live_action}
+    establishment={@establishment}
+    patch={~p"/vendors"}
+  />
+</.modal>
