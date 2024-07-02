@@ -4,9 +4,42 @@ defmodule MapexWeb.EstablishmentsLiveTest do
   import Phoenix.LiveViewTest
   import Mapex.FoodPermitsFixtures
 
-  @create_attrs %{status: "some status", address: "some address", permit: "some permit", objectid: 42, applicant: "some applicant", facilitytype: "some facilitytype", locationdescription: "some locationdescription", fooditems: "some fooditems", latitude: 120.5, longitude: 120.5}
-  @update_attrs %{status: "some updated status", address: "some updated address", permit: "some updated permit", objectid: 43, applicant: "some updated applicant", facilitytype: "some updated facilitytype", locationdescription: "some updated locationdescription", fooditems: "some updated fooditems", latitude: 456.7, longitude: 456.7}
-  @invalid_attrs %{status: nil, address: nil, permit: nil, objectid: nil, applicant: nil, facilitytype: nil, locationdescription: nil, fooditems: nil, latitude: nil, longitude: nil}
+  @create_attrs %{
+    status: "some status",
+    address: "some address",
+    permit: "some permit",
+    objectid: 42,
+    applicant: "some applicant",
+    facilitytype: "some facilitytype",
+    locationdescription: "some locationdescription",
+    fooditems: "some fooditems",
+    latitude: 120.5,
+    longitude: 120.5
+  }
+  @update_attrs %{
+    status: "some updated status",
+    address: "some updated address",
+    permit: "some updated permit",
+    objectid: 43,
+    applicant: "some updated applicant",
+    facilitytype: "some updated facilitytype",
+    locationdescription: "some updated locationdescription",
+    fooditems: "some updated fooditems",
+    latitude: 456.7,
+    longitude: 456.7
+  }
+  @invalid_attrs %{
+    status: nil,
+    address: nil,
+    permit: nil,
+    objectid: nil,
+    applicant: nil,
+    facilitytype: nil,
+    locationdescription: nil,
+    fooditems: nil,
+    latitude: nil,
+    longitude: nil
+  }
 
   defp create_establishments(_) do
     establishments = establishments_fixture()
@@ -49,7 +82,9 @@ defmodule MapexWeb.EstablishmentsLiveTest do
     test "updates establishments in listing", %{conn: conn, establishments: establishments} do
       {:ok, index_live, _html} = live(conn, ~p"/food_vendors")
 
-      assert index_live |> element("#food_vendors-#{establishments.id} a", "Edit") |> render_click() =~
+      assert index_live
+             |> element("#food_vendors-#{establishments.id} a", "Edit")
+             |> render_click() =~
                "Edit Establishments"
 
       assert_patch(index_live, ~p"/food_vendors/#{establishments}/edit")
@@ -72,7 +107,10 @@ defmodule MapexWeb.EstablishmentsLiveTest do
     test "deletes establishments in listing", %{conn: conn, establishments: establishments} do
       {:ok, index_live, _html} = live(conn, ~p"/food_vendors")
 
-      assert index_live |> element("#food_vendors-#{establishments.id} a", "Delete") |> render_click()
+      assert index_live
+             |> element("#food_vendors-#{establishments.id} a", "Delete")
+             |> render_click()
+
       refute has_element?(index_live, "#food_vendors-#{establishments.id}")
     end
   end

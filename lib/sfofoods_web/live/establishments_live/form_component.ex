@@ -43,13 +43,15 @@ defmodule MapexWeb.EstablishmentsLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(FoodPermits.change_establishments(establishments))
+       to_form(FoodPermits.change_establishment(establishments))
      end)}
   end
 
   @impl true
   def handle_event("validate", %{"establishments" => establishments_params}, socket) do
-    changeset = FoodPermits.change_establishments(socket.assigns.establishments, establishments_params)
+    changeset =
+      FoodPermits.change_establishment(socket.assigns.establishments, establishments_params)
+
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
@@ -58,7 +60,7 @@ defmodule MapexWeb.EstablishmentsLive.FormComponent do
   end
 
   defp save_establishments(socket, :edit, establishments_params) do
-    case FoodPermits.update_establishments(socket.assigns.establishments, establishments_params) do
+    case FoodPermits.update_establishment(socket.assigns.establishments, establishments_params) do
       {:ok, establishments} ->
         notify_parent({:saved, establishments})
 
@@ -73,7 +75,7 @@ defmodule MapexWeb.EstablishmentsLive.FormComponent do
   end
 
   defp save_establishments(socket, :new, establishments_params) do
-    case FoodPermits.create_establishments(establishments_params) do
+    case FoodPermits.create_establishment(establishments_params) do
       {:ok, establishments} ->
         notify_parent({:saved, establishments})
 

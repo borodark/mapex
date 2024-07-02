@@ -4,9 +4,9 @@ defmodule Mapex.FoodPermits do
   """
 
   import Ecto.Query, warn: false
-  alias Mapex.Repo
+  alias Mapex.FoodPermitsData
 
-  alias Mapex.FoodPermits.Establishments
+  alias Mapex.FoodPermits.Establishment
 
   @doc """
   Returns the list of food_vendors.
@@ -14,79 +14,82 @@ defmodule Mapex.FoodPermits do
   ## Examples
 
       iex> list_food_vendors()
-      [%Establishments{}, ...]
+      [%Establishment{}, ...]
 
   """
   def list_food_vendors do
-    Repo.all(Establishments)
+    FoodPermitsData.all()
   end
 
   @doc """
-  Gets a single establishments.
+  Gets a single establishment.
 
-  Raises `Ecto.NoResultsError` if the Establishments does not exist.
+  Raises `Ecto.NoResultsError` if the Establishment does not exist.
 
   ## Examples
 
-      iex> get_establishments!(123)
-      %Establishments{}
+      iex> get_establishment!(123)
+      %Establishment{}
 
-      iex> get_establishments!(456)
+      iex> get_establishment!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_establishments!(id), do: Repo.get!(Establishments, id)
-
-  @doc """
-  Creates a establishments.
-
-  ## Examples
-
-      iex> create_establishments(%{field: value})
-      {:ok, %Establishments{}}
-
-      iex> create_establishments(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_establishments(attrs \\ %{}) do
-    %Establishments{}
-    |> Establishments.changeset(attrs)
-    |> Repo.insert()
+  def get_establishment!(object_id) do
+    FoodPermitsData.get!(object_id)
   end
 
   @doc """
-  Updates a establishments.
+  Creates an establishment.
 
   ## Examples
 
-      iex> update_establishments(establishments, %{field: new_value})
-      {:ok, %Establishments{}}
+      iex> create_establishment(%{field: value})
+      {:ok, %Establishment{}}
 
-      iex> update_establishments(establishments, %{field: bad_value})
+      iex> create_establishment(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_establishments(%Establishments{} = establishments, attrs) do
-    establishments
-    |> Establishments.changeset(attrs)
-    |> Repo.update()
+  def create_establishment(attrs \\ %{}) do
+    %Establishment{}
+    |> Establishment.changeset(attrs)
+    |> FoodPermitsData.store()
   end
 
   @doc """
-  Deletes a establishments.
+  Updates an establishment.
 
   ## Examples
 
-      iex> delete_establishments(establishments)
-      {:ok, %Establishments{}}
+      iex> update_establishment(establishment, %{field: new_value})
+      {:ok, %Establishment{}}
 
-      iex> delete_establishments(establishments)
+      iex> update_establishment(establishment, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_establishments(%Establishments{} = establishments) do
-    Repo.delete(establishments)
+  def update_establishment(%Establishment{} = establishment, attrs) do
+    establishment
+    |> Establishment.changeset(attrs)
+    |> FoodPermitsData.store()
+  end
+
+  @doc """
+  Deletes an establishment.
+
+  ## Examples
+
+      iex> delete_establishment(establishment)
+      {:ok, %Establishment{}}
+
+      iex> delete_establishment(establishment)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_establishment(%Establishment{} = establishment) do
+    establishment
+    |> FoodPermitsData.delete()
   end
 
   @doc """
@@ -94,11 +97,11 @@ defmodule Mapex.FoodPermits do
 
   ## Examples
 
-      iex> change_establishments(establishments)
-      %Ecto.Changeset{data: %Establishments{}}
+      iex> change_establishment(establishment)
+      %Ecto.Changeset{data: %Establishment{}}
 
   """
-  def change_establishments(%Establishments{} = establishments, attrs \\ %{}) do
-    Establishments.changeset(establishments, attrs)
+  def change_establishment(%Establishment{} = establishment, attrs \\ %{}) do
+    establishment |> Establishment.changeset(attrs)
   end
 end

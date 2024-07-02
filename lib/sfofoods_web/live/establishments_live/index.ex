@@ -2,7 +2,7 @@ defmodule MapexWeb.EstablishmentsLive.Index do
   use MapexWeb, :live_view
 
   alias Mapex.FoodPermits
-  alias Mapex.FoodPermits.Establishments
+  alias Mapex.FoodPermits.Establishment
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,13 +17,13 @@ defmodule MapexWeb.EstablishmentsLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Establishments")
-    |> assign(:establishments, FoodPermits.get_establishments!(id))
+    |> assign(:establishments, FoodPermits.get_establishment!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Establishments")
-    |> assign(:establishments, %Establishments{})
+    |> assign(:establishments, %Establishment{})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -39,8 +39,8 @@ defmodule MapexWeb.EstablishmentsLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    establishments = FoodPermits.get_establishments!(id)
-    {:ok, _} = FoodPermits.delete_establishments(establishments)
+    establishments = FoodPermits.get_establishment!(id)
+    {:ok, _} = FoodPermits.delete_establishment(establishments)
 
     {:noreply, stream_delete(socket, :food_vendors, establishments)}
   end

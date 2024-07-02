@@ -8,7 +8,18 @@ defmodule Mapex.FoodPermitsTest do
 
     import Mapex.FoodPermitsFixtures
 
-    @invalid_attrs %{status: nil, address: nil, permit: nil, objectid: nil, applicant: nil, facilitytype: nil, locationdescription: nil, fooditems: nil, latitude: nil, longitude: nil}
+    @invalid_attrs %{
+      status: nil,
+      address: nil,
+      permit: nil,
+      objectid: nil,
+      applicant: nil,
+      facilitytype: nil,
+      locationdescription: nil,
+      fooditems: nil,
+      latitude: nil,
+      longitude: nil
+    }
 
     test "list_food_vendors/0 returns all food_vendors" do
       establishments = establishments_fixture()
@@ -21,9 +32,22 @@ defmodule Mapex.FoodPermitsTest do
     end
 
     test "create_establishments/1 with valid data creates a establishments" do
-      valid_attrs = %{status: "some status", address: "some address", permit: "some permit", objectid: 42, applicant: "some applicant", facilitytype: "some facilitytype", locationdescription: "some locationdescription", fooditems: "some fooditems", latitude: 120.5, longitude: 120.5}
+      valid_attrs = %{
+        status: "some status",
+        address: "some address",
+        permit: "some permit",
+        objectid: 42,
+        applicant: "some applicant",
+        facilitytype: "some facilitytype",
+        locationdescription: "some locationdescription",
+        fooditems: "some fooditems",
+        latitude: 120.5,
+        longitude: 120.5
+      }
 
-      assert {:ok, %Establishments{} = establishments} = FoodPermits.create_establishments(valid_attrs)
+      assert {:ok, %Establishments{} = establishments} =
+               FoodPermits.create_establishments(valid_attrs)
+
       assert establishments.status == "some status"
       assert establishments.address == "some address"
       assert establishments.permit == "some permit"
@@ -42,9 +66,23 @@ defmodule Mapex.FoodPermitsTest do
 
     test "update_establishments/2 with valid data updates the establishments" do
       establishments = establishments_fixture()
-      update_attrs = %{status: "some updated status", address: "some updated address", permit: "some updated permit", objectid: 43, applicant: "some updated applicant", facilitytype: "some updated facilitytype", locationdescription: "some updated locationdescription", fooditems: "some updated fooditems", latitude: 456.7, longitude: 456.7}
 
-      assert {:ok, %Establishments{} = establishments} = FoodPermits.update_establishments(establishments, update_attrs)
+      update_attrs = %{
+        status: "some updated status",
+        address: "some updated address",
+        permit: "some updated permit",
+        objectid: 43,
+        applicant: "some updated applicant",
+        facilitytype: "some updated facilitytype",
+        locationdescription: "some updated locationdescription",
+        fooditems: "some updated fooditems",
+        latitude: 456.7,
+        longitude: 456.7
+      }
+
+      assert {:ok, %Establishments{} = establishments} =
+               FoodPermits.update_establishments(establishments, update_attrs)
+
       assert establishments.status == "some updated status"
       assert establishments.address == "some updated address"
       assert establishments.permit == "some updated permit"
@@ -59,14 +97,20 @@ defmodule Mapex.FoodPermitsTest do
 
     test "update_establishments/2 with invalid data returns error changeset" do
       establishments = establishments_fixture()
-      assert {:error, %Ecto.Changeset{}} = FoodPermits.update_establishments(establishments, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               FoodPermits.update_establishments(establishments, @invalid_attrs)
+
       assert establishments == FoodPermits.get_establishments!(establishments.id)
     end
 
     test "delete_establishments/1 deletes the establishments" do
       establishments = establishments_fixture()
       assert {:ok, %Establishments{}} = FoodPermits.delete_establishments(establishments)
-      assert_raise Ecto.NoResultsError, fn -> FoodPermits.get_establishments!(establishments.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        FoodPermits.get_establishments!(establishments.id)
+      end
     end
 
     test "change_establishments/1 returns a establishments changeset" do

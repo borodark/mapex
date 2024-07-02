@@ -23,7 +23,12 @@
 
 <.back navigate={~p"/food_vendors"}>Back to food_vendors</.back>
 
-<.modal :if={@live_action == :edit} id="establishments-modal" show on_cancel={JS.patch(~p"/food_vendors/#{@establishments}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="establishments-modal"
+  show
+  on_cancel={JS.patch(~p"/food_vendors/#{@establishments}")}
+>
   <.live_component
     module={MapexWeb.EstablishmentsLive.FormComponent}
     id={@establishments.id}

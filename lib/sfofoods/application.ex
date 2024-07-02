@@ -11,8 +11,7 @@ defmodule Mapex.Application do
       MapexWeb.Telemetry,
       Mapex.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:sfofoods, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:sfofoods, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:sfofoods, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Mapex.PubSub},
       # Start the Finch HTTP client for sending emails
