@@ -5,25 +5,25 @@ defmodule Mapex.FoodPermitsFixtures do
   """
 
   @doc """
-  Generate a establishment.
+  Generate a establishments.
   """
-  def establishment_fixture(attrs \\ %{}) do
-    {:ok, establishment} =
+  def establishments_fixture(attrs \\ %{}) do
+    {:ok, establishments} =
       attrs
       |> Enum.into(%{
-        objectid: 1,
-        applicant: "A",
-        facilitytype: "Push Cart",
-        locationdescription: "MARKET ST: DRUMM ST intersection",
-        address: "5 THE EMBARCADERO",
-        permit: "16MFF-0139",
-        status: "REQUESTED",
-        fooditems: "South American/Peruvian food",
-        latitude: 37.7758255197583,
-        longitude: -122.417249626643
+        address: "some address",
+        applicant: "some applicant",
+        facilitytype: "some facilitytype",
+        fooditems: "some fooditems",
+        latitude: 120.5,
+        locationdescription: "some locationdescription",
+        longitude: 120.5,
+        objectid: 42,
+        permit: "some permit",
+        status: "some status"
       })
-      |> Mapex.FoodPermits.create_establishment()
+      |> Mapex.FoodPermits.create_establishments()
 
-    establishment
+    establishments
   end
 end

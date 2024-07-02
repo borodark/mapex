@@ -7,11 +7,13 @@
 # General application configuration
 import Config
 
-config :mapex,
+config :sfofoods,
+  namespace: Mapex,
+  ecto_repos: [Mapex.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :mapex, MapexWeb.Endpoint,
+config :sfofoods, MapexWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
@@ -19,12 +21,21 @@ config :mapex, MapexWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Mapex.PubSub,
-  live_view: [signing_salt: "zF9osj0L"]
+  live_view: [signing_salt: "U/nqcxo5"]
+
+# Configures the mailer
+#
+# By default it uses the "Local" adapter which stores the emails
+# locally. You can see the emails in your browser, at "/dev/mailbox".
+#
+# For production it's recommended to configure a different adapter
+# at the `config/runtime.exs`.
+# config :sfofoods, Mapex.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  mapex: [
+  sfofoods: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -33,8 +44,8 @@ config :esbuild,
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "3.4.0",
-  mapex: [
+  version: "3.4.3",
+  sfofoods: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
