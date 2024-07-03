@@ -8,6 +8,7 @@ defmodule Mapex.FoodPermitsData do
   # alias Explorer.DataFrame
   # %Establishment{}
   require Explorer.DataFrame, as: DataFrame
+  require Explorer.Series, as: Series
   alias Mapex.FoodPermits.Establishment
 
   def delete(%Establishment{} = delete_this) do
@@ -50,34 +51,36 @@ defmodule Mapex.FoodPermitsData do
   end
 
   @impl true
-  def handle_call(:get_all, from, sfo_foods_data_frame) do
-    from |> IO.inspect()
-    {:reply, sfo_foods_data_frame, sfo_foods_data_frame}
+  def handle_call(:get_all, _from, sfo_foods_data_frame) do
+    establishments =
+      sfo_foods_data_frame
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.map(fn one_vendor -> struct(%Establishment{}, one_vendor) end)
+
+    {:reply, establishments, sfo_foods_data_frame}
   end
 
   @impl true
-  def handle_call({:get, object_id}, from, sfo_foods_data_frame) do
-    from |> IO.inspect()
-
-    establishments =
+  def handle_call({:get, object_id}, _from, sfo_foods_data_frame) do
+    an_establishment =
       sfo_foods_data_frame
       |> DataFrame.filter(objectid == ^object_id)
-      |> DataFrame.to_rows(atom_keys: true)
-      |> IO.inspect()
-
-    an_establishment = establishments |> Enum.at(0)
+    |> DataFrame.to_rows(atom_keys: true)
+    |> Enum.at(0)
+    
     {:reply, %Establishment{} |> struct(an_establishment), sfo_foods_data_frame}
   end
 
   @impl true
-  def handle_cast({:store, _this_one}, sfo_foods_data_frame) do
-    # TODO implement store
-    {:noreply, sfo_foods_data_frame}
-  end
+  def handle_call({:search, dish}, _from, sfo_foods_data_frame) do
+    establishments_serving_dishes =
+      sfo_foods_data_frame
+      |> DataFrame.filter_with(fn data_frame ->
+      data_frame["fooditems"] |> Series.contains(dish)
+      end)
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.map(fn one_vendor -> struct(%Establishment{}, one_vendor) end)
 
-  @impl true
-  def handle_cast({:delete, _delete_this}, sfo_foods_data_frame) do
-    # TODO implement delete
-    {:noreply, sfo_foods_data_frame}
+    {:reply, establishments_serving_dishes, sfo_foods_data_frame}
   end
 end

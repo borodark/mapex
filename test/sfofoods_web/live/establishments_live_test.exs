@@ -16,30 +16,6 @@ defmodule MapexWeb.EstablishmentsLiveTest do
     latitude: 120.5,
     longitude: 120.5
   }
-  @update_attrs %{
-    status: "some updated status",
-    address: "some updated address",
-    permit: "some updated permit",
-    objectid: 43,
-    applicant: "some updated applicant",
-    facilitytype: "some updated facilitytype",
-    locationdescription: "some updated locationdescription",
-    fooditems: "some updated fooditems",
-    latitude: 456.7,
-    longitude: 456.7
-  }
-  @invalid_attrs %{
-    status: nil,
-    address: nil,
-    permit: nil,
-    objectid: nil,
-    applicant: nil,
-    facilitytype: nil,
-    locationdescription: nil,
-    fooditems: nil,
-    latitude: nil,
-    longitude: nil
-  }
 
   defp create_establishments(_) do
     establishments = establishments_fixture()
@@ -54,64 +30,6 @@ defmodule MapexWeb.EstablishmentsLiveTest do
 
       assert html =~ "Listing Food vendors"
       assert html =~ establishments.status
-    end
-
-    test "saves new establishments", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/food_vendors")
-
-      assert index_live |> element("a", "New Establishments") |> render_click() =~
-               "New Establishments"
-
-      assert_patch(index_live, ~p"/food_vendors/new")
-
-      assert index_live
-             |> form("#establishments-form", establishments: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert index_live
-             |> form("#establishments-form", establishments: @create_attrs)
-             |> render_submit()
-
-      assert_patch(index_live, ~p"/food_vendors")
-
-      html = render(index_live)
-      assert html =~ "Establishments created successfully"
-      assert html =~ "some status"
-    end
-
-    test "updates establishments in listing", %{conn: conn, establishments: establishments} do
-      {:ok, index_live, _html} = live(conn, ~p"/food_vendors")
-
-      assert index_live
-             |> element("#food_vendors-#{establishments.id} a", "Edit")
-             |> render_click() =~
-               "Edit Establishments"
-
-      assert_patch(index_live, ~p"/food_vendors/#{establishments}/edit")
-
-      assert index_live
-             |> form("#establishments-form", establishments: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert index_live
-             |> form("#establishments-form", establishments: @update_attrs)
-             |> render_submit()
-
-      assert_patch(index_live, ~p"/food_vendors")
-
-      html = render(index_live)
-      assert html =~ "Establishments updated successfully"
-      assert html =~ "some updated status"
-    end
-
-    test "deletes establishments in listing", %{conn: conn, establishments: establishments} do
-      {:ok, index_live, _html} = live(conn, ~p"/food_vendors")
-
-      assert index_live
-             |> element("#food_vendors-#{establishments.id} a", "Delete")
-             |> render_click()
-
-      refute has_element?(index_live, "#food_vendors-#{establishments.id}")
     end
   end
 

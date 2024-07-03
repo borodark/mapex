@@ -8,7 +8,7 @@ defmodule Mapex.FoodPermitsFixtures do
   Generate a establishments.
   """
   def establishments_fixture(attrs \\ %{}) do
-    {:ok, establishments} =
+    {:ok, establishment} =
       attrs
       |> Enum.into(%{
         address: "some address",
@@ -22,8 +22,8 @@ defmodule Mapex.FoodPermitsFixtures do
         permit: "some permit",
         status: "some status"
       })
-      |> Mapex.FoodPermits.create_establishments()
+      |> Mapex.FoodPermits.create_establishment()
 
-    establishments
+    establishment
   end
 end

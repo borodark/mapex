@@ -1,9 +1,10 @@
 defmodule Mapex.FoodPermits.Establishment do
   use Ecto.Schema
+  @primary_key {:objectid, :id, autogenerate: false}
+
   import Ecto.Changeset
 
   schema "food_vendors" do
-    field(:objectid, :id)
     field(:status, :string)
     field(:address, :string)
     field(:permit, :string)
@@ -13,15 +14,12 @@ defmodule Mapex.FoodPermits.Establishment do
     field(:fooditems, :string)
     field(:latitude, :float)
     field(:longitude, :float)
-
-    timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(establishments, attrs) do
     establishments
     |> cast(attrs, [
-      :objectid,
       :applicant,
       :facilitytype,
       :locationdescription,
@@ -33,7 +31,6 @@ defmodule Mapex.FoodPermits.Establishment do
       :longitude
     ])
     |> validate_required([
-      :objectid,
       :applicant,
       :facilitytype,
       :locationdescription,
