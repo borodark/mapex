@@ -11,7 +11,7 @@ defmodule Mapex.Application do
       MapexWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:sfofoods, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Mapex.PubSub},
-      {Mapex.FoodPermitsData, "sfo-street-foods.csv"},
+      {Mapex.FoodPermits, "sfo-street-foods.csv"},
       # Start the Finch HTTP client for sending emails
       # {Finch, name: Mapex.Finch},
       # Start a worker by calling: Mapex.Worker.start_link(arg)

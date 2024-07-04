@@ -7,11 +7,6 @@
 # General application configuration
 import Config
 
-config :sfofoods,
-  namespace: Mapex,
-  ecto_repos: [Mapex.Repo],
-  generators: [timestamp_type: :utc_datetime]
-
 # Configures the endpoint
 config :sfofoods, MapexWeb.Endpoint,
   url: [host: "localhost"],

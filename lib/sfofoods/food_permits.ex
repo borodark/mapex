@@ -1,9 +1,11 @@
 defmodule Mapex.FoodPermits do
-  @moduledoc """
-  The FoodPermits context.
-  """
+  use GenServer
 
-  alias Mapex.FoodPermitsData
+  @moduledoc """
+  The FoodPermits: gen_server with a dataframe
+  """
+  require Explorer.DataFrame, as: DataFrame
+  require Explorer.Series, as: Series
 
   alias Mapex.FoodPermits.Establishment
 
@@ -12,12 +14,28 @@ defmodule Mapex.FoodPermits do
 
   ## Examples
 
-      iex> list_food_vendors()
-      [%Establishment{}, ...]
+  iex> list_food_vendors()
+  [%Establishment{}, ...]
 
   """
   def list_food_vendors do
-    FoodPermitsData.all()
+    GenServer.call(__MODULE__, {:get_all})
+  end
+
+  @doc """
+  Gets a single establishment.
+
+  ## Examples
+
+  iex> get_establishment!(123)
+  %Establishment{}
+
+  iex> get_establishment!(456)
+  ** (Ecto.NoResultsError)
+
+  """
+  def get_establishment!(object_id) do
+    GenServer.call(__MODULE__, {:get, object_id |> String.to_integer()})
   end
 
   @doc """
@@ -30,26 +48,68 @@ defmodule Mapex.FoodPermits do
 
   """
   def search_vendors_serving(dish) do
-    FoodPermitsData.search(dish)
+    GenServer.call(__MODULE__, {:search, dish})
   end
 
-  @doc """
-  Gets a single establishment.
+  def start_link(arg) when is_binary(arg) do
+    GenServer.start_link(__MODULE__, arg, name: __MODULE__)
+  end
 
-  Raises `Ecto.NoResultsError` if the Establishment does not exist.
+  #  \\ "sfo-street-foods.csv"
+  @impl true
+  def init(data_file_name) do
+    {:ok, sfo_foods_data_frame} =
+      data_file_name
+      |> DataFrame.from_csv(
+        columns: [
+          :objectid,
+          :applicant,
+          :facilitytype,
+          :locationdescription,
+          :address,
+          :permit,
+          :status,
+          :fooditems,
+          :latitude,
+          :longitude
+        ]
+      )
+      |> IO.inspect()
 
-  ## Examples
+    {:ok, sfo_foods_data_frame |> DataFrame.rename(objectid: :id)}
+  end
 
-      iex> get_establishment!(123)
-      %Establishment{}
+  @impl true
+  def handle_call({:get_all}, _from, sfo_foods_data_frame) do
+    establishments =
+      sfo_foods_data_frame
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.map(fn one_vendor -> struct(%Establishment{}, one_vendor) end)
 
-      iex> get_establishment!(456)
-      ** (Ecto.NoResultsError)
+    {:reply, establishments, sfo_foods_data_frame}
+  end
 
-  """
-  def get_establishment!(object_id) do
-    object_id
-    |> String.to_integer()
-    |> FoodPermitsData.get!()
+  @impl true
+  def handle_call({:get, id}, _from, sfo_foods_data_frame) do
+    an_establishment =
+      sfo_foods_data_frame
+      |> DataFrame.filter(id == ^id)
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.at(0)
+
+    {:reply, %Establishment{} |> struct(an_establishment), sfo_foods_data_frame}
+  end
+
+  @impl true
+  def handle_call({:search, dish}, _from, sfo_foods_data_frame) do
+    establishments_serving_dishes =
+      sfo_foods_data_frame
+      |> DataFrame.filter_with(fn data_frame ->
+        data_frame["fooditems"] |> Series.contains(dish)
+      end)
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.map(fn one_vendor -> struct(%Establishment{}, one_vendor) end)
+
+    {:reply, establishments_serving_dishes, sfo_foods_data_frame}
   end
 end
