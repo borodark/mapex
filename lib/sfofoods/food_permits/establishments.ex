@@ -1,6 +1,5 @@
 defmodule Mapex.FoodPermits.Establishment do
   use Ecto.Schema
-  @primary_key {:objectid, :id, autogenerate: false}
 
   import Ecto.Changeset
 

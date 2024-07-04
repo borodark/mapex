@@ -9,11 +9,9 @@ defmodule Mapex.Application do
   def start(_type, _args) do
     children = [
       MapexWeb.Telemetry,
-      Mapex.Repo,
-      {Ecto.Migrator,
-       repos: Application.fetch_env!(:sfofoods, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:sfofoods, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Mapex.PubSub},
+      {Mapex.FoodPermitsData, "sfo-street-foods.csv"},
       # Start the Finch HTTP client for sending emails
       # {Finch, name: Mapex.Finch},
       # Start a worker by calling: Mapex.Worker.start_link(arg)
@@ -34,10 +32,5 @@ defmodule Mapex.Application do
   def config_change(changed, _new, removed) do
     MapexWeb.Endpoint.config_change(changed, removed)
     :ok
-  end
-
-  defp skip_migrations?() do
-    # By default, sqlite migrations are run when using a release
-    System.get_env("RELEASE_NAME") != nil
   end
 end

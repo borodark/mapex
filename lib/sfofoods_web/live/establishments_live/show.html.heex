@@ -1,24 +1,23 @@
 <.header>
-  Establishments <%= @establishments.id %>
-  <:subtitle>This is a establishments record from your database.</:subtitle>
+  Establishment # <%= @establishments.id %>
+  <:subtitle>This is an establishment record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/food_vendors/#{@establishments}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit establishments</.button>
+      <.button>Show On Map</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Objectid"><%= @establishments.objectid %></:item>
-  <:item title="Applicant"><%= @establishments.applicant %></:item>
   <:item title="Facilitytype"><%= @establishments.facilitytype %></:item>
+  <:item title="Fooditems"><%= @establishments.fooditems %></:item>
   <:item title="Locationdescription"><%= @establishments.locationdescription %></:item>
   <:item title="Address"><%= @establishments.address %></:item>
-  <:item title="Permit"><%= @establishments.permit %></:item>
-  <:item title="Status"><%= @establishments.status %></:item>
-  <:item title="Fooditems"><%= @establishments.fooditems %></:item>
   <:item title="Latitude"><%= @establishments.latitude %></:item>
   <:item title="Longitude"><%= @establishments.longitude %></:item>
+  <:item title="Applicant"><%= @establishments.applicant %></:item>
+  <:item title="Permit"><%= @establishments.permit %></:item>
+  <:item title="Status"><%= @establishments.status %></:item>
 </.list>
 
 <.back navigate={~p"/food_vendors"}>Back to food_vendors</.back>

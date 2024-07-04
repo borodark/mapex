@@ -1,10 +1,5 @@
 <.header>
-  Listing Food vendors
-  <:actions>
-    <.link patch={~p"/food_vendors/new"}>
-      <.button>New Establishments</.button>
-    </.link>
-  </:actions>
+  SFO Food vendors
 </.header>
 
 <.table
@@ -12,20 +7,19 @@
   rows={@streams.food_vendors}
   row_click={fn {_id, establishments} -> JS.navigate(~p"/food_vendors/#{establishments}") end}
 >
-  <:col :let={{_id, establishments}} label="Objectid"><%= establishments.objectid %></:col>
-  <:col :let={{_id, establishments}} label="Applicant"><%= establishments.applicant %></:col>
   <:col :let={{_id, establishments}} label="Facilitytype">
     <%= establishments.facilitytype %>
   </:col>
+  <:col :let={{_id, establishments}} label="Fooditems"><%= establishments.fooditems %></:col>
   <:col :let={{_id, establishments}} label="Locationdescription">
     <%= establishments.locationdescription %>
   </:col>
+  <:col :let={{_id, establishments}} label="Latitude"><%= establishments.latitude %></:col>
+  <:col :let={{_id, establishments}} label="Longitude"><%= establishments.longitude %></:col>
+  <:col :let={{_id, establishments}} label="Applicant"><%= establishments.applicant %></:col>
   <:col :let={{_id, establishments}} label="Address"><%= establishments.address %></:col>
   <:col :let={{_id, establishments}} label="Permit"><%= establishments.permit %></:col>
   <:col :let={{_id, establishments}} label="Status"><%= establishments.status %></:col>
-  <:col :let={{_id, establishments}} label="Fooditems"><%= establishments.fooditems %></:col>
-  <:col :let={{_id, establishments}} label="Latitude"><%= establishments.latitude %></:col>
-  <:col :let={{_id, establishments}} label="Longitude"><%= establishments.longitude %></:col>
   <:action :let={{_id, establishments}}>
     <div class="sr-only">
       <.link navigate={~p"/food_vendors/#{establishments}"}>Show</.link>

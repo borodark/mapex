@@ -8,7 +8,6 @@ defmodule MapexWeb.EstablishmentsLiveTest do
     status: "some status",
     address: "some address",
     permit: "some permit",
-    objectid: 42,
     applicant: "some applicant",
     facilitytype: "some facilitytype",
     locationdescription: "some locationdescription",

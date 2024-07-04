@@ -6,7 +6,9 @@ defmodule MapexWeb.EstablishmentsLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :food_vendors, FoodPermits.list_food_vendors())}
+    {:ok,
+     socket
+     |> stream(:food_vendors, FoodPermits.list_food_vendors())}
   end
 
   @impl true
@@ -30,18 +32,5 @@ defmodule MapexWeb.EstablishmentsLive.Index do
     socket
     |> assign(:page_title, "Listing Food vendors")
     |> assign(:establishments, nil)
-  end
-
-  @impl true
-  def handle_info({MapexWeb.EstablishmentsLive.FormComponent, {:saved, establishments}}, socket) do
-    {:noreply, stream_insert(socket, :food_vendors, establishments)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    establishments = FoodPermits.get_establishment!(id)
-    {:ok, _} = FoodPermits.delete_establishment(establishments)
-
-    {:noreply, stream_delete(socket, :food_vendors, establishments)}
   end
 end
