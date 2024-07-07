@@ -7,39 +7,16 @@
   rows={@streams.food_vendors}
   row_click={fn {_id, establishments} -> JS.navigate(~p"/food_vendors/#{establishments}") end}
 >
-  <:col :let={{_id, establishments}} label="Facilitytype">
+  <:col :let={{_id, establishments}} label="Food Items"><%= establishments.fooditems %></:col>
+  <:col :let={{_id, establishments}} label="Facility">
     <%= establishments.facilitytype %>
   </:col>
-  <:col :let={{_id, establishments}} label="Fooditems"><%= establishments.fooditems %></:col>
-  <:col :let={{_id, establishments}} label="Locationdescription">
+  <:col :let={{_id, establishments}} label="Location Description">
     <%= establishments.locationdescription %>
   </:col>
-  <:col :let={{_id, establishments}} label="Latitude"><%= establishments.latitude %></:col>
-  <:col :let={{_id, establishments}} label="Longitude"><%= establishments.longitude %></:col>
   <:col :let={{_id, establishments}} label="Applicant"><%= establishments.applicant %></:col>
   <:col :let={{_id, establishments}} label="Address"><%= establishments.address %></:col>
   <:col :let={{_id, establishments}} label="Permit"><%= establishments.permit %></:col>
   <:col :let={{_id, establishments}} label="Status"><%= establishments.status %></:col>
-  <:action :let={{_id, establishments}}>
-    <div class="sr-only">
-      <.link navigate={~p"/food_vendors/#{establishments}"}>Show</.link>
-    </div>
-    <.link patch={~p"/food_vendors/map"}>Map</.link>
-  </:action>
+  <:col :let={{_id, establishments}} label="Lat,Lon"> <%= establishments.latitude %><br><%= establishments.longitude %></:col>
 </.table>
-
-<.modal
-  :if={@live_action in [:map]}
-  id="establishments-modal"
-  show
-  on_cancel={JS.patch(~p"/food_vendors")}
->
-  <.live_component
-    module={LiveMap} id="live-map"
-    title="Example Live Map"
-    width={640} height={360}
-    latitude={@latitude}
-    longitude={@longitude}
-    zoom={@zoom}
-    />
-</.modal>
