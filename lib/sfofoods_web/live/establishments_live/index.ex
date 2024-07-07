@@ -2,35 +2,26 @@ defmodule MapexWeb.EstablishmentsLive.Index do
   use MapexWeb, :live_view
 
   alias Mapex.FoodPermits
-  alias Mapex.FoodPermits.Establishment
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok,
-     socket
-     |> stream(:food_vendors, FoodPermits.list_food_vendors())}
+    {:ok, socket}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Establishments")
-    |> assign(:establishments, FoodPermits.get_establishment!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Establishments")
-    |> assign(:establishments, %Establishment{})
+    # "calling handle_params" |> IO.inspect
+    {:noreply,
+     apply_action(
+       socket |> stream(:food_vendors, FoodPermits.list_food_vendors()),
+       socket.assigns.live_action,
+       params
+     )}
   end
 
   defp apply_action(socket, :index, _params) do
+    # "calling apply_action" |> IO.inspect
     socket
     |> assign(:page_title, "Listing Food vendors")
-    |> assign(:establishments, nil)
   end
 end

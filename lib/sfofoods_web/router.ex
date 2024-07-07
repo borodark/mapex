@@ -23,13 +23,7 @@ defmodule MapexWeb.Router do
 
     live "/food_vendors", EstablishmentsLive.Index, :index
 
-    live "/food_vendors/new", EstablishmentsLive.Index, :new
-
-    live "/food_vendors/:id/edit", EstablishmentsLive.Index, :edit
-
     live "/food_vendors/:id", EstablishmentsLive.Show, :show
-
-    live "/food_vendors/:id/show/edit", EstablishmentsLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
