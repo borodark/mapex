@@ -34,14 +34,12 @@
   show
   on_cancel={JS.patch(~p"/food_vendors")}
 >
-      <.live_component
-        module={LiveMap} id="live-map"
-        title="Example Live Map"
-        width={640} height={360}
-        latitude={@latitude}
-        longitude={@longitude}
-        zoom={@zoom}
-      >
-
-      </.live_component>
+  <.live_component
+    module={LiveMap} id="live-map"
+    title="Example Live Map"
+    width={640} height={360}
+    latitude={@latitude}
+    longitude={@longitude}
+    zoom={@zoom}
+    />
 </.modal>

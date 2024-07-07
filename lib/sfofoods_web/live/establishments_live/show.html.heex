@@ -1,27 +1,25 @@
 <.header>
   Establishment # <%= @establishments.id %>
-  <:subtitle>This is an establishment record.</:subtitle>
+  <:subtitle>Located: (<%= @establishments.latitude %> , <%= @establishments.longitude %>)
+</:subtitle>
 </.header>
 
 <.list>
   <:item title="Facilitytype"><%= @establishments.facilitytype %></:item>
-  <:item title="Fooditems"><%= @establishments.fooditems %></:item>
-  <:item title="Locationdescription"><%= @establishments.locationdescription %></:item>
-  <:item title="Address"><%= @establishments.address %></:item>
-  <:item title="Latitude"><%= @establishments.latitude %></:item>
-  <:item title="Longitude"><%= @establishments.longitude %></:item>
-  <:item title="Applicant"><%= @establishments.applicant %></:item>
   <:item title="Permit"><%= @establishments.permit %></:item>
   <:item title="Status"><%= @establishments.status %></:item>
+  <:item title="Fooditems"><%= @establishments.fooditems %></:item>
+  <:item title="Address"><%= @establishments.address %></:item>
+  <:item title="Locationdescription"><%= @establishments.locationdescription %></:item>
 </.list>
+
 <.live_component
   module={LiveMap} id="live-map"
-  title="Example Live Map"
+  title={@establishments.locationdescription}
   width={640} height={360}
   latitude={@establishments.latitude}
   longitude={@establishments.longitude}
   zoom={18}
-  >
-</.live_component>
+  />
 
 <.back navigate={~p"/food_vendors"}>Back to food_vendors</.back>
