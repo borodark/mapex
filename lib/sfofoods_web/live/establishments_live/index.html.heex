@@ -24,30 +24,24 @@
     <div class="sr-only">
       <.link navigate={~p"/food_vendors/#{establishments}"}>Show</.link>
     </div>
-    <.link patch={~p"/food_vendors/#{establishments}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, establishments}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: establishments.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
+    <.link patch={~p"/food_vendors/map"}>Map</.link>
   </:action>
 </.table>
 
 <.modal
-  :if={@live_action in [:new, :edit]}
+  :if={@live_action in [:map]}
   id="establishments-modal"
   show
   on_cancel={JS.patch(~p"/food_vendors")}
 >
-  <.live_component
-    module={MapexWeb.EstablishmentsLive.FormComponent}
-    id={@establishments.id || :new}
-    title={@page_title}
-    action={@live_action}
-    establishments={@establishments}
-    patch={~p"/food_vendors"}
-  />
+      <.live_component
+        module={LiveMap} id="live-map"
+        title="Example Live Map"
+        width={640} height={360}
+        latitude={@latitude}
+        longitude={@longitude}
+        zoom={@zoom}
+      >
+
+      </.live_component>
 </.modal>

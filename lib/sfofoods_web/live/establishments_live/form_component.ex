@@ -9,7 +9,7 @@ defmodule MapexWeb.EstablishmentsLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage establishments records in your database.</:subtitle>
+        <:subtitle>Map</:subtitle>
       </.header>
 
       <.simple_form
@@ -19,7 +19,6 @@ defmodule MapexWeb.EstablishmentsLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:objectid]} type="number" label="Objectid" />
         <.input field={@form[:applicant]} type="text" label="Applicant" />
         <.input field={@form[:facilitytype]} type="text" label="Facilitytype" />
         <.input field={@form[:locationdescription]} type="text" label="Locationdescription" />

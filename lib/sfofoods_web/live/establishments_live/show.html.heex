@@ -1,11 +1,6 @@
 <.header>
   Establishment # <%= @establishments.id %>
-  <:subtitle>This is an establishment record from your database.</:subtitle>
-  <:actions>
-    <.link patch={~p"/food_vendors/#{@establishments}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Show On Map</.button>
-    </.link>
-  </:actions>
+  <:subtitle>This is an establishment record.</:subtitle>
 </.header>
 
 <.list>
@@ -19,21 +14,14 @@
   <:item title="Permit"><%= @establishments.permit %></:item>
   <:item title="Status"><%= @establishments.status %></:item>
 </.list>
+<.live_component
+  module={LiveMap} id="live-map"
+  title="Example Live Map"
+  width={640} height={360}
+  latitude={@establishments.latitude}
+  longitude={@establishments.longitude}
+  zoom={18}
+  >
+</.live_component>
 
 <.back navigate={~p"/food_vendors"}>Back to food_vendors</.back>
-
-<.modal
-  :if={@live_action == :edit}
-  id="establishments-modal"
-  show
-  on_cancel={JS.patch(~p"/food_vendors/#{@establishments}")}
->
-  <.live_component
-    module={MapexWeb.EstablishmentsLive.FormComponent}
-    id={@establishments.id}
-    title={@page_title}
-    action={@live_action}
-    establishments={@establishments}
-    patch={~p"/food_vendors/#{@establishments}"}
-  />
-</.modal>
