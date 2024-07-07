@@ -1,7 +1,8 @@
 <.header>
   Establishment # <%= @establishments.id %>
-  <:subtitle>Located: (<%= @establishments.latitude %> , <%= @establishments.longitude %>)
-</:subtitle>
+  <:subtitle>
+    Located: (<%= @establishments.latitude %> , <%= @establishments.longitude %>)
+  </:subtitle>
 </.header>
 
 <.list>
@@ -14,12 +15,14 @@
 </.list>
 
 <.live_component
-  module={LiveMap} id="live-map"
+  module={LiveMap}
+  id="live-map"
   title={@establishments.locationdescription}
-  width={640} height={360}
+  width={640}
+  height={360}
   latitude={@establishments.latitude}
   longitude={@establishments.longitude}
   zoom={18}
-  />
+/>
 
 <.back navigate={~p"/food_vendors"}>Back to food_vendors</.back>

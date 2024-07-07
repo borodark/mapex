@@ -19,7 +19,7 @@ defmodule LiveMap.CLI do
     # @FIXME: Find a way NOT to render these controls.
     zoom_in: [],
     zoom_out: [],
-    myself: "",
+    myself: ""
   }
 
   def main(args) do
@@ -29,14 +29,14 @@ defmodule LiveMap.CLI do
         longitude: :float,
         zoom: :integer,
         width: :integer,
-        height: :integer,
+        height: :integer
       ],
       aliases: [
         x: :longitude,
         y: :latitude,
         z: :zoom,
         w: :width,
-        h: :height,
+        h: :height
       ]
     ]
 
@@ -47,7 +47,7 @@ defmodule LiveMap.CLI do
     assigns
     |> Map.put(:tiles, tiles)
     |> LiveMap.render()
-    |> Phoenix.HTML.Safe.to_iodata
-    |> IO.puts
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.puts()
   end
 end

@@ -74,7 +74,6 @@ defmodule Mapex.FoodPermits do
           :longitude
         ]
       )
-      |> IO.inspect()
 
     {:ok, sfo_foods_data_frame |> DataFrame.rename(objectid: :id)}
   end
