@@ -15,7 +15,7 @@ defmodule MapexWeb.EstablishmentsLiveTest do
     test "lists all food_vendors", %{conn: conn, establishments: establishments} do
       {:ok, _index_live, html} = live(conn, ~p"/food_vendors")
 
-      assert html =~ "Listing Food vendors"
+      assert html =~ "SFO Food Locator"
       assert html =~ establishments.status
     end
   end

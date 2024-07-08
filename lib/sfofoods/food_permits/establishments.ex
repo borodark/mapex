@@ -19,26 +19,15 @@ defmodule Mapex.FoodPermits.Establishment do
   def changeset(establishments, attrs) do
     establishments
     |> cast(attrs, [
-      :applicant,
-      :facilitytype,
-      :locationdescription,
-      :address,
-      :permit,
       :status,
-      :fooditems,
-      :latitude,
-      :longitude
+      :fooditems
     ])
     |> validate_required([
-      :applicant,
-      :facilitytype,
-      :locationdescription,
-      :address,
-      :permit,
       :status,
-      :fooditems,
-      :latitude,
-      :longitude
+      :fooditems
     ])
+    |> validate_length(:fooditems, min: 3)
+
+    # |> validate_subset(:status, ["APPROVED", "REQUESTED", "ISSUED", "SUSPEND", "EXPIRED"])
   end
 end

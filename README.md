@@ -1,5 +1,12 @@
-# Mapex
+# SFO Street Food with Maps 
 
+
+## TODO
+
+* https://github.com/aiwaiwa/phoenix_dark_mode
+
+
+## 
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies

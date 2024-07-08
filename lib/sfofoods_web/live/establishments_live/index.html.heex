@@ -1,12 +1,17 @@
 <.header>
   SFO Food vendors
-  <.input
-    name="Status"
-    field="status"
-    value="APPROVED"
-    type="select"
-    options={["APPROVED", "REQUESTED", "ISSUED", "SUSPEND", "EXPIRED"]}
-  />
+  <.simple_form for={@form} id="search-form" phx-change="validate" phx-submit="search">
+    <.input field={@form[:fooditems]} type="text" label="Search for Food Item" />
+    <.input
+      field={@form[:status]}
+      type="select"
+      options={["APPROVED", "REQUESTED", "ISSUED", "SUSPEND", "EXPIRED"]}
+      label="Permit Status"
+    />
+    <:actions>
+      <.button phx-disable-with="Searching ... ">Search</.button>
+    </:actions>
+  </.simple_form>
 </.header>
 
 <.table
