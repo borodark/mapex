@@ -10,7 +10,7 @@ services:
       - 4000:4000 # dev
     stdin_open: true
     tty: true
-    user: ${U_ID}:${U_ID}
+    user: 1000:1000
     working_dir: /opt/app/
     volumes:
       - ./:/opt/app/
