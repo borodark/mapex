@@ -47,8 +47,8 @@ defmodule Mapex.FoodPermits do
   [%Establishment{}, ...]
 
   """
-  def search_vendors_serving(dish) do
-    GenServer.call(__MODULE__, {:search, dish})
+  def search_vendors_serving(dish, status) do
+    GenServer.call(__MODULE__, {:search, dish, status})
   end
 
   def start_link(arg) when is_binary(arg) do
@@ -100,9 +100,21 @@ defmodule Mapex.FoodPermits do
   end
 
   @impl true
-  def handle_call({:search, dish}, _from, sfo_foods_data_frame) do
+  def handle_call({:search_status, status}, _from, sfo_foods_data_frame) do
+    establishments_in_status =
+      sfo_foods_data_frame
+      |> DataFrame.filter(status == ^status)
+      |> DataFrame.to_rows(atom_keys: true)
+      |> Enum.map(fn one_vendor -> %Establishment{} |> struct(one_vendor) end)
+
+    {:reply, establishments_in_status, sfo_foods_data_frame}
+  end
+
+  @impl true
+  def handle_call({:search, dish, status}, _from, sfo_foods_data_frame) do
     establishments_serving_dishes =
       sfo_foods_data_frame
+      |> DataFrame.filter(status == ^status)
       |> DataFrame.filter_with(fn data_frame ->
         data_frame["fooditems"] |> Series.contains(dish)
       end)
