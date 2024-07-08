@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  test:
+    build: ./
+    # image: unelixir
+    hostname: test
+    container_name: test
+    ports:
+      - 8089:8080 # forward graffQL
+      - 4000:4000 # dev
+    stdin_open: true
+    tty: true
+    user: ${U_ID}:${U_ID}
+    working_dir: /opt/app/
+    volumes:
+      - ./:/opt/app/
+      - ./rebuild_start_in_docker.sh:/opt/app/rebuild_start_in_docker.sh
+    command: ./rebuild_start_in_docker.sh
