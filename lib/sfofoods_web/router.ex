@@ -22,8 +22,6 @@ defmodule MapexWeb.Router do
     get "/", PageController, :home
 
     live "/food_vendors", EstablishmentsLive.Index, :index
-
-    live "/food_vendors/:id", EstablishmentsLive.Show, :show
   end
 
   # Other scopes may use custom stacks.

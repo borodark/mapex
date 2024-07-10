@@ -11,12 +11,11 @@
 ## TODO
 
 - [X] https://github.com/aiwaiwa/phoenix_dark_mode
-- [ ] display map and details in modal and evolve to an SPA
+- [X] display map and details in modal and evolve to an SPA
 - [ ] `live_map` as `mix` dependency 
 - [ ] add periodic refresh of local CSV from http://data.sfgov.org/resource/rqzj-sfat.csv
 - [ ] tests for added functionality
 - [ ] drop `Ecto` dependency
-
 
 ## 
 

@@ -17,7 +17,11 @@
 <.table
   id="food_vendors"
   rows={@streams.food_vendors}
-  row_click={fn {_id, establishments} -> JS.navigate(~p"/food_vendors/#{establishments}") end}
+  row_click={
+    fn {_id, establishments} ->
+      JS.push("show", value: %{id: establishments.id}) |> show_modal("unestablishmentmodal")
+    end
+  }
 >
   <:col :let={{_id, establishments}} label="Food Items"><%= establishments.fooditems %></:col>
   <:col :let={{_id, establishments}} label="Facility">
@@ -34,3 +38,32 @@
     <%= establishments.latitude %><br /><%= establishments.longitude %>
   </:col>
 </.table>
+
+<.modal id="unestablishmentmodal" on_cancel={hide_modal("unestablishmentmodal")}>
+  <.header>
+    Establishment # <%= @un_establishment.id %>
+    <:subtitle>
+      Located: (<%= @un_establishment.latitude %> , <%= @un_establishment.longitude %>)
+    </:subtitle>
+  </.header>
+
+  <.list>
+    <:item title="Facilitytype"><%= @un_establishment.facilitytype %></:item>
+    <:item title="Permit"><%= @un_establishment.permit %></:item>
+    <:item title="Status"><%= @un_establishment.status %></:item>
+    <:item title="Fooditems"><%= @un_establishment.fooditems %></:item>
+    <:item title="Address"><%= @un_establishment.address %></:item>
+    <:item title="Locationdescription"><%= @un_establishment.locationdescription %></:item>
+  </.list>
+
+  <.live_component
+    module={LiveMap}
+    id="live-map"
+    title={@un_establishment.locationdescription}
+    width={640}
+    height={360}
+    latitude={@un_establishment.latitude}
+    longitude={@un_establishment.longitude}
+    zoom={18}
+  />
+</.modal>

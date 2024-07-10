@@ -34,6 +34,10 @@ defmodule Mapex.FoodPermits do
   ** (Ecto.NoResultsError)
 
   """
+  def get_establishment!(object_id) when object_id |> is_number do
+    GenServer.call(__MODULE__, {:get, object_id})
+  end
+
   def get_establishment!(object_id) do
     GenServer.call(__MODULE__, {:get, object_id |> String.to_integer()})
   end

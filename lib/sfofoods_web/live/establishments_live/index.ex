@@ -5,10 +5,9 @@ defmodule MapexWeb.EstablishmentsLive.Index do
   alias Mapex.FoodPermits.Establishment
   @impl true
   def mount(_params, _session, socket) do
-    "calling mount ....." |> IO.inspect()
-
     {:ok,
      socket
+     |> assign(:un_establishment, %Establishment{})
      |> assign(
        :form,
        Establishment.changeset(%Establishment{}, %{status: "APPROVED"})
@@ -25,6 +24,13 @@ defmodule MapexWeb.EstablishmentsLive.Index do
        socket.assigns.live_action,
        params
      )}
+  end
+
+  @impl true
+  def handle_event("show", %{"id" => id}, socket) do
+    {:noreply,
+     socket
+     |> assign(:un_establishment, FoodPermits.get_establishment!(id))}
   end
 
   @impl true
